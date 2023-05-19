@@ -1,0 +1,9 @@
+method,&,resnet50office31open-partial,&,resnet50officehomeopen-partial,&,resnet50visdaopen-partial,&,resnet50domainnetopen-partial,&,Avg,&,dinov2_vitl14office31open-partial,&,dinov2_vitl14officehomeopen-partial,&,dinov2_vitl14visdaopen-partial,&,dinov2_vitl14domainnetopen-partial,&,Avg,&,ViT-L/14@336pxoffice31open-partial,&,ViT-L/14@336pxofficehomeopen-partial,&,ViT-L/14@336pxvisdaopen-partial,&,ViT-L/14@336pxdomainnetopen-partial,&,Avg,\\
+SO,&,81.21,&,65.18,&,24.59,&,31.04,&,50.5,&,\textbf{91.2},&,\textbf{84.46},&,\textbf{50.36},&,61.45,&,\textbf{71.87},&,93.98,&,86.89,&,63.46,&,63.19,&,76.88,\\
+DANCE,&,84.47,&,69.34,&,\textbf{44.13},&,32.71,&,57.66,&,87.32,&,83.32,&,41.33,&,\textbf{63.52},&,68.87,&,95.17,&,90.33,&,57.78,&,64.88,&,77.04,\\
+OVANet,&,81.38,&,67.83,&,36.26,&,34.43,&,54.97,&,89.96,&,82.03,&,46.48,&,58.6,&,69.27,&,95.36,&,88.18,&,68.57,&,64.3,&,79.1,\\
+UniOT,&,\textbf{84.74},&,\textbf{73.65},&,41.29,&,\textbf{34.52},&,\textbf{58.55},&,86.63,&,84.41,&,44.15,&,57.85,&,68.26,&,90.62,&,88.85,&,72.22,&,62.88,&,78.64,\\
+WiSE-FT,&,-,&,-,&,-,&,-,&,-,&,-,&,-,&,-,&,-,&,-,&,95.27,&,90.77,&,70.83,&,68.72,&,81.4,\\
+ClipCrossModel,&,-,&,-,&,-,&,-,&,-,&,-,&,-,&,-,&,-,&,-,&,\textbf{95.38},&,89.71,&,73.22,&,68.81,&,81.78,\\
+ClipZeroShot,&,-,&,-,&,-,&,-,&,-,&,-,&,-,&,-,&,-,&,-,&,90.1,&,90.21,&,78.6,&,70.78,&,82.42,\\
+debug0.3,&,-,&,-,&,-,&,-,&,-,&,-,&,-,&,-,&,-,&,-,&,93.68,&,\textbf{92.27},&,\textbf{82.97},&,\textbf{74.39},&,\textbf{85.83},\\

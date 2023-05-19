@@ -1,0 +1,347 @@
+label,class name,painting,real,sketch
+0,aircraft carrier,93,273,44
+1,airplane,144,152,231
+2,alarm clock,58,364,141
+3,ambulance,51,436,80
+4,angel,352,21,208
+5,animal migration,416,310,77
+6,ant,164,266,77
+7,anvil,105,232,62
+8,apple,311,37,126
+9,arm,295,164,174
+10,asparagus,283,458,144
+11,axe,153,267,145
+12,backpack,185,307,153
+13,banana,250,180,142
+14,bandage,135,274,39
+15,barn,298,218,140
+16,baseball,84,60,33
+17,baseball bat,94,79,133
+18,basket,288,309,133
+19,basketball,192,165,112
+20,bat,213,251,112
+21,bathtub,30,361,146
+22,beach,349,435,55
+23,bear,265,409,124
+24,beard,259,509,335
+25,bed,32,506,131
+26,bee,219,310,100
+27,belt,11,461,87
+28,bench,116,461,190
+29,bicycle,136,493,240
+30,binoculars,103,278,184
+31,bird,155,558,214
+32,birthday cake,83,204,163
+33,blackberry,9,397,42
+34,blueberry,114,512,89
+35,book,44,498,102
+36,boomerang,28,438,83
+37,bottlecap,373,406,97
+38,bowtie,197,360,225
+39,bracelet,105,498,210
+40,brain,163,498,189
+41,bread,219,553,192
+42,bridge,329,536,234
+43,broccoli,70,473,125
+44,broom,58,442,163
+45,bucket,42,229,113
+46,bulldozer,40,439,139
+47,bus,78,521,155
+48,bush,46,21,433
+49,butterfly,270,444,174
+50,cactus,85,460,42
+51,cake,107,543,46
+52,calculator,8,261,48
+53,calendar,30,123,41
+54,camel,202,340,91
+55,camera,109,334,76
+56,camouflage,50,85,48
+57,campfire,151,336,58
+58,candle,180,434,53
+59,cannon,37,207,65
+60,canoe,266,490,90
+61,car,31,393,101
+62,carrot,185,393,23
+63,castle,157,477,39
+64,cat,240,557,91
+65,ceiling fan,26,151,17
+66,cello,110,314,44
+67,cell phone,92,364,16
+68,chair,36,224,67
+69,chandelier,39,275,23
+70,church,99,467,24
+71,circle,204,167,141
+72,clarinet,62,280,20
+73,clock,182,413,30
+74,cloud,194,226,70
+75,coffee cup,129,432,23
+76,compass,54,174,8
+77,computer,11,250,19
+78,cookie,37,472,23
+79,cooler,9,365,59
+80,couch,18,420,42
+81,cow,109,377,11
+82,crab,107,495,106
+83,crayon,12,352,199
+84,crocodile,84,499,112
+85,crown,55,103,121
+86,cruise ship,153,441,107
+87,cup,363,258,271
+88,diamond,11,385,80
+89,dishwasher,74,353,28
+90,diving board,85,395,46
+91,dog,503,545,217
+92,dolphin,280,405,59
+93,donut,261,441,88
+94,door,242,252,251
+95,dragon,161,337,136
+96,dresser,98,162,9
+97,drill,14,397,100
+98,drums,142,538,149
+99,duck,293,281,192
+100,dumbbell,132,402,129
+101,ear,130,239,139
+102,elbow,59,274,107
+103,elephant,296,549,186
+104,envelope,203,458,125
+105,eraser,11,247,33
+106,eye,201,475,342
+107,eyeglasses,58,469,150
+108,face,14,485,312
+109,fan,11,307,42
+110,feather,240,335,210
+111,fence,34,537,98
+112,finger,39,431,198
+113,fire hydrant,20,398,98
+114,fireplace,10,489,84
+115,firetruck,238,362,229
+116,fish,268,333,259
+117,flamingo,154,368,99
+118,flashlight,292,320,64
+119,flip flops,144,361,83
+120,floor lamp,7,172,190
+121,flower,339,249,235
+122,flying saucer,169,258,94
+123,foot,59,387,179
+124,fork,58,239,123
+125,frog,116,532,142
+126,frying pan,118,279,92
+127,garden,148,570,67
+128,garden hose,125,365,58
+129,giraffe,73,412,130
+130,goatee,73,389,124
+131,golf club,443,363,483
+132,grapes,218,509,200
+133,grass,229,257,120
+134,guitar,142,438,126
+135,hamburger,100,391,127
+136,hammer,31,236,49
+137,hand,177,361,166
+138,harp,156,447,31
+139,hat,275,368,53
+140,headphones,126,381,130
+141,hedgehog,173,507,76
+142,helicopter,179,561,137
+143,helmet,18,432,146
+144,hexagon,112,399,80
+145,hockey puck,155,260,62
+146,hockey stick,130,251,71
+147,horse,364,413,71
+148,hospital,35,464,16
+149,hot air balloon,317,506,118
+150,hot dog,102,445,96
+151,hot tub,136,527,33
+152,hourglass,141,193,92
+153,house,73,261,100
+154,house plant,287,337,109
+155,hurricane,93,294,67
+156,ice cream,217,456,127
+157,jacket,190,318,55
+158,jail,37,409,65
+159,kangaroo,146,426,85
+160,key,66,149,95
+161,keyboard,259,351,44
+162,knee,89,349,190
+163,knife,21,405,85
+164,ladder,291,305,168
+165,lantern,152,364,26
+166,laptop,107,262,219
+167,leaf,350,284,263
+168,leg,124,453,95
+169,light bulb,336,178,283
+170,lighter,18,410,82
+171,lighthouse,284,499,267
+172,lightning,137,391,62
+173,line,351,67,16
+174,lion,352,361,230
+175,lipstick,137,312,77
+176,lobster,176,453,119
+177,lollipop,174,419,74
+178,mailbox,70,415,105
+179,map,296,352,135
+180,marker,72,228,168
+181,matches,39,232,38
+182,megaphone,108,368,132
+183,mermaid,69,312,159
+184,microphone,102,387,107
+185,microwave,7,236,118
+186,monkey,279,489,116
+187,moon,225,396,108
+188,mosquito,45,390,99
+189,motorbike,74,540,146
+190,mountain,223,551,135
+191,mouse,306,92,88
+192,moustache,291,284,64
+193,mouth,35,304,119
+194,mug,261,386,117
+195,mushroom,176,548,176
+196,nail,586,457,15
+197,necklace,241,485,79
+198,nose,356,250,70
+199,ocean,327,411,50
+200,octagon,13,313,80
+201,octopus,229,504,104
+202,onion,329,417,110
+203,oven,7,340,104
+204,owl,346,523,140
+205,paintbrush,251,258,52
+206,paint can,114,374,22
+207,palm tree,410,226,113
+208,panda,184,407,54
+209,pants,265,278,95
+210,paper clip,78,358,81
+211,parachute,91,432,162
+212,parrot,234,541,186
+213,passport,23,373,65
+214,peanut,57,291,91
+215,pear,311,303,127
+216,peas,61,474,55
+217,pencil,126,319,18
+218,penguin,308,488,146
+219,piano,201,398,83
+220,pickup truck,99,433,131
+221,picture frame,258,139,79
+222,pig,227,400,157
+223,pillow,95,455,80
+224,pineapple,233,465,91
+225,pizza,88,419,140
+226,pliers,203,316,114
+227,police car,60,514,82
+228,pond,416,543,65
+229,pool,62,475,72
+230,popsicle,118,439,81
+231,postcard,60,443,34
+232,potato,40,425,57
+233,power outlet,70,430,65
+234,purse,34,380,157
+235,rabbit,187,481,63
+236,raccoon,174,472,241
+237,radio,45,277,115
+238,rain,245,174,161
+239,rainbow,58,154,32
+240,rake,40,413,65
+241,remote control,76,384,32
+242,rhinoceros,153,478,128
+243,rifle,168,363,85
+244,river,387,453,69
+245,roller coaster,52,444,42
+246,rollerskates,209,339,91
+247,sailboat,225,292,251
+248,sandwich,89,402,90
+249,saw,105,82,74
+250,saxophone,247,331,215
+251,school bus,43,311,244
+252,scissors,44,394,302
+253,scorpion,91,311,318
+254,screwdriver,45,291,251
+255,sea turtle,281,428,177
+256,see saw,113,186,362
+257,shark,188,128,344
+258,sheep,233,556,316
+259,shoe,182,410,449
+260,shorts,111,310,362
+261,shovel,77,312,421
+262,sink,65,160,322
+263,skateboard,104,388,290
+264,skull,130,221,408
+265,skyscraper,124,198,325
+266,sleeping bag,11,283,411
+267,smiley face,53,143,304
+268,snail,223,325,279
+269,snake,295,349,325
+270,snorkel,74,482,272
+271,snowflake,186,46,321
+272,snowman,430,79,497
+273,soccer ball,142,181,261
+274,sock,20,368,314
+275,speedboat,69,433,327
+276,spider,136,415,450
+277,spoon,75,364,280
+278,spreadsheet,22,524,469
+279,square,70,62,501
+280,squiggle,308,47,306
+281,squirrel,377,485,270
+282,stairs,12,246,366
+283,star,48,42,142
+284,steak,25,530,164
+285,stereo,5,147,60
+286,stethoscope,198,331,156
+287,stitches,9,144,23
+288,stop sign,55,115,75
+289,stove,9,427,181
+290,strawberry,261,314,137
+291,streetlight,307,320,181
+292,string bean,42,342,43
+293,submarine,280,423,142
+294,suitcase,99,301,216
+295,sun,246,112,178
+296,swan,236,228,163
+297,sweater,76,405,116
+298,swing set,71,388,66
+299,sword,206,410,261
+300,syringe,5,409,147
+301,table,70,392,201
+302,teapot,269,435,220
+303,teddy-bear,192,367,140
+304,telephone,53,333,176
+305,television,34,274,86
+306,tennis racquet,12,310,141
+307,tent,97,411,233
+308,The Eiffel Tower,220,360,192
+309,The Great Wall of China,108,368,93
+310,The Mona Lisa,130,155,99
+311,tiger,295,414,264
+312,toaster,72,372,183
+313,toe,1,240,48
+314,toilet,21,407,78
+315,tooth,76,178,123
+316,toothbrush,6,404,162
+317,toothpaste,21,356,108
+318,tornado,257,329,135
+319,tractor,128,445,182
+320,traffic light,39,260,84
+321,train,282,475,168
+322,tree,387,373,379
+323,triangle,207,252,206
+324,trombone,122,335,129
+325,truck,80,456,166
+326,trumpet,85,270,125
+327,t-shirt,0,256,103
+328,umbrella,201,244,200
+329,underwear,5,200,87
+330,van,8,306,94
+331,vase,180,439,126
+332,violin,139,355,142
+333,washing machine,10,325,105
+334,watermelon,286,461,88
+335,waterslide,4,424,72
+336,whale,248,463,189
+337,wheel,13,278,116
+338,windmill,277,441,168
+339,wine bottle,41,282,184
+340,wine glass,113,230,153
+341,wristwatch,11,384,145
+342,yoga,112,251,175
+343,zebra,207,466,191
+344,zigzag,77,332,100
+total,,50416,120906,48212

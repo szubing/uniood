@@ -1,0 +1,17 @@
+dataset,n_share,n_source_private,method,step,AA,H-score,H3-score,AUROC,OSCR
+office31,10,10,SO,final,85.44,66.34,65.55,90.87,81.21
+office31,10,10,DANCE,final,93.4,80.32,71.57,88.72,84.47
+office31,10,10,OVANet,final,78.8,83.33,76.8,91.46,81.38
+office31,10,10,UniOT,final,83.11,84.37,77.33,93.66,84.74
+officehome,10,5,SO,final,72.83,54.39,56.87,80.33,65.18
+officehome,10,5,DANCE,final,81.67,39.06,44.0,79.4,69.34
+officehome,10,5,OVANet,final,68.75,71.68,67.96,82.23,67.83
+officehome,10,5,UniOT,final,78.69,75.97,70.49,85.66,73.65
+visda,6,3,SO,final,39.79,30.33,34.92,48.88,24.59
+visda,6,3,DANCE,final,66.42,2.78,4.04,56.95,44.13
+visda,6,3,OVANet,final,37.89,44.57,45.91,61.27,36.26
+visda,6,3,UniOT,final,47.78,54.48,46.01,62.21,41.29
+domainnet,150,50,SO,final,41.97,39.2,42.16,65.86,31.04
+domainnet,150,50,DANCE,final,46.64,26.91,31.18,62.46,32.71
+domainnet,150,50,OVANet,final,40.33,49.57,50.34,67.14,34.43
+domainnet,150,50,UniOT,final,44.0,50.88,47.91,65.12,34.52

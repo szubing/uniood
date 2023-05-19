@@ -1,0 +1,13 @@
+dataset,n_share,n_source_private,method,step,OA,AA,Closed-set OA,Closed-set AA
+office31,31,0,SO,final,84.52,83.99,90.11,89.77
+office31,31,0,DANCE,final,82.02,81.67,86.97,86.56
+office31,31,0,OVANet,final,82.58,82.17,90.1,89.75
+office31,31,0,UniOT,final,63.28,65.44,91.02,91.16
+officehome,65,0,SO,final,66.89,66.72,81.9,81.24
+officehome,65,0,DANCE,final,64.29,64.28,80.1,79.93
+officehome,65,0,OVANet,final,71.42,70.6,81.86,81.19
+officehome,65,0,UniOT,final,53.47,55.81,82.93,82.79
+visda,12,0,SO,final,39.27,42.45,66.98,70.88
+visda,12,0,DANCE,final,32.06,34.87,52.94,56.72
+visda,12,0,OVANet,final,51.51,56.91,67.0,70.89
+visda,12,0,UniOT,final,32.99,39.31,64.22,71.77
