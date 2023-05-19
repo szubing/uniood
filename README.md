@@ -39,7 +39,7 @@ To reproduce the results of the paper,
 
 (2) then, set you default paths in `configs/default.py`, and extract features by runing `scripts/feature.sh` in the first step to speed up the process and then run other scripts;
 
-(3) finally, report the results by runing the `print_*.py` --> figures and latex tables are save in corresponding directories.
+(3) finally, report the results by runing the `print_*.py` --> figures and latex tables are saved in corresponding directories.
 
 ## Acknowledge
 We thank [CLIP cross-model](https://github.com/linzhiqiu/cross_modal_adaptation) for providing the CLIP text templates, and the [OSR](https://github.com/sgvaze/osr_closed_set_all_you_need) for providing the OSCR evaluation code.
