@@ -41,7 +41,7 @@ parser.add_argument(
 parser.add_argument(
     "--method",
     type=str,
-    default="UniOT",
+    default="SO",
     choices=method_classes.keys(),
     help="which method to run",
 )

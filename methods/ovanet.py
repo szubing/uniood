@@ -6,7 +6,7 @@ import torch.nn.functional as F
 from methods.source_only import SourceOnly
 from models import build_head
 
-# Official codes: https://github.com/VisionLearningGroup/DANCE
+# Official codes: https://github.com/VisionLearningGroup/OVANet
 class OVANet(SourceOnly):
     require_source = True
     require_target = True

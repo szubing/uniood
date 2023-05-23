@@ -41,7 +41,7 @@ To reproduce the results of the paper,
 
 (3) finally, report the results by runing the `print_*.py` --> figures and latex tables are saved in corresponding directories.
 
-## Acknowledge
+## Acknowledgements
 We thank [CLIP cross-model](https://github.com/linzhiqiu/cross_modal_adaptation) for providing the CLIP text templates, and the [OSR](https://github.com/sgvaze/osr_closed_set_all_you_need) for providing the OSCR evaluation code.
 
 ## Citation

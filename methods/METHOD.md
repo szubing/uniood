@@ -8,4 +8,4 @@ To add new method, we suggest by adding a single `your_method_name.py` into this
 
 - You should explicitly to set `require_source` or `require_target` to be `True` or `False` in the __init__ step of your method. Doing so could also speed up the training process if your method do not need to use source or target data.
 
-After have your `your_method_name.py`, add a new mehtod in the `__init__.py` for loading it.
+After including your `your_method_name.py`, add a new mehtod in the `__init__.py` for loading it.
