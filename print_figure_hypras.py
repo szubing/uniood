@@ -69,7 +69,7 @@ for dataset in DATASETS:
     result_task_ours_MSP = np.zeros((len(SEEDS), len(temps)))
     temp_id = 0
     for temp in temps:
-        method = f'debug{temp}' if temp != 0.5 else 'debug'
+        method = f'debug{temp}'
         task_id = 0
         for source_domain in DOMAINS[dataset]:
             for target_domain in DOMAINS[dataset]:
@@ -82,7 +82,7 @@ for dataset in DATASETS:
 
                     seed_id = 0
                     for seed in SEEDS:
-                        save_dir = get_save_dir('./experiments', 
+                        save_dir = get_save_dir('./experiments_old', 
                                                 dataset, 
                                                 method,
                                                 source_domain, 
@@ -102,7 +102,7 @@ for dataset in DATASETS:
                         result = load_json(save_dir)
                         result_task_ours[seed_id, temp_id] += float(result['OSR Accuracy']['OSCR'])
 
-                        save_dir = get_save_dir('./experiments', 
+                        save_dir = get_save_dir('./experiments_old', 
                                                 dataset, 
                                                 'ClipZeroShot',
                                                 source_domain, 

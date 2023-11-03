@@ -43,7 +43,7 @@ class UniOT(SourceOnly):
 
     def before_training(self, cfg=None):
         super().before_training()
-        if cfg is not None: # cfg is not None means that this process is done in the initializing time
+        if isinstance(cfg, dict): # cfg is not None means that this process is done in the initializing time
             self.global_step = 0
             self.target_dataloader, self.test_dataloader = cfg['target_data_loader'], cfg['test_data_loader']
             with torch.no_grad():

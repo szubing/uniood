@@ -1,5 +1,0 @@
-method,&,ViT-L/14@336pxoffice31open-partial,&,ViT-L/14@336pxoffice31open,&,ViT-L/14@336pxoffice31closed,&,ViT-L/14@336pxoffice31partial,&,ViT-L/14@336pxofficehomeopen-partial,&,ViT-L/14@336pxofficehomeopen,&,ViT-L/14@336pxofficehomeclosed,&,ViT-L/14@336pxofficehomepartial,&,ViT-L/14@336pxvisdaopen-partial,&,ViT-L/14@336pxvisdaopen,&,ViT-L/14@336pxvisdaclosed,&,ViT-L/14@336pxvisdapartial,&,ViT-L/14@336pxdomainnetopen-partial,&,ViT-L/14@336pxdomainnetopen,&,Avg,\\
-SO,&,91.98,&,91.87,&,\textbf{80.22},&,\textbf{89.79},&,84.52,&,82.05,&,58.12,&,58.31,&,69.85,&,75.79,&,55.31,&,57.19,&,61.49,&,65.63,&,\textbf{73.01},\\
-DANCE,&,\textbf{94.7},&,96.09,&,75.76,&,66.83,&,89.01,&,83.95,&,55.42,&,46.63,&,71.9,&,74.3,&,58.08,&,49.5,&,60.53,&,65.24,&,70.57,\\
-OVANet,&,93.36,&,91.16,&,74.64,&,87.53,&,85.42,&,80.29,&,\textbf{64.65},&,\textbf{65.92},&,59.47,&,39.27,&,43.55,&,42.58,&,70.7,&,72.4,&,69.35,\\
-UniOT,&,92.32,&,\textbf{96.48},&,59.95,&,41.31,&,\textbf{89.45},&,\textbf{86.64},&,59.27,&,43.6,&,\textbf{79.1},&,\textbf{83.08},&,\textbf{71.62},&,\textbf{62.03},&,\textbf{71.42},&,\textbf{73.21},&,72.11,\\

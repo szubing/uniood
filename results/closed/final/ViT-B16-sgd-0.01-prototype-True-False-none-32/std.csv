@@ -1,0 +1,26 @@
+dataset,n_share,n_source_private,method,source,target,OA,AA,Closed-set OA,Closed-set AA
+office31,31,0,AutoDistill,amazon,dslr,0.0,0.0,0.0,0.0
+office31,31,0,AutoDistill,amazon,webcam,0.0,0.0,0.0,0.0
+office31,31,0,AutoDistill,dslr,amazon,0.02,0.02,0.0,0.0
+office31,31,0,AutoDistill,dslr,webcam,0.06,0.04,0.06,0.04
+office31,31,0,AutoDistill,webcam,amazon,0.03,0.03,0.02,0.02
+office31,31,0,AutoDistill,webcam,dslr,0.0,0.0,0.0,0.0
+officehome,65,0,AutoDistill,Art,Clipart,0.0,0.01,0.02,0.02
+officehome,65,0,AutoDistill,Art,Product,0.01,0.01,0.01,0.01
+officehome,65,0,AutoDistill,Art,RealWorld,0.03,0.02,0.03,0.03
+officehome,65,0,AutoDistill,Clipart,Art,0.02,0.02,0.02,0.03
+officehome,65,0,AutoDistill,Clipart,Product,0.01,0.01,0.02,0.03
+officehome,65,0,AutoDistill,Clipart,RealWorld,0.02,0.02,0.02,0.02
+officehome,65,0,AutoDistill,Product,Art,0.0,0.0,0.0,0.0
+officehome,65,0,AutoDistill,Product,Clipart,0.03,0.02,0.02,0.02
+officehome,65,0,AutoDistill,Product,RealWorld,0.01,0.01,0.02,0.02
+officehome,65,0,AutoDistill,RealWorld,Art,0.02,0.01,0.0,0.0
+officehome,65,0,AutoDistill,RealWorld,Clipart,0.03,0.04,0.02,0.02
+officehome,65,0,AutoDistill,RealWorld,Product,0.02,0.02,0.02,0.02
+visda,12,0,AutoDistill,syn,real,0.01,0.0,0.01,0.01
+domainnet,345,0,AutoDistill,painting,real,0.0,0.01,0.01,0.0
+domainnet,345,0,AutoDistill,painting,sketch,0.01,0.01,0.0,0.01
+domainnet,345,0,AutoDistill,real,painting,0.0,0.0,0.01,0.01
+domainnet,345,0,AutoDistill,real,sketch,0.02,0.02,0.01,0.01
+domainnet,345,0,AutoDistill,sketch,painting,0.01,0.01,0.01,0.02
+domainnet,345,0,AutoDistill,sketch,real,0.0,0.01,0.01,0.0

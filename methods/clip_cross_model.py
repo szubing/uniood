@@ -17,6 +17,7 @@ class ClipCrossModel(ClipZeroShot):
     require_source = True
     require_target = False
     text_templetes = 'ensemble' # choises are ['classname', 'vanilla', 'hand_crafted', 'ensemble', 'template_mining']
+    # threshold_mode = 'from_validation'
     
     def __init__(self, cfg) -> None:
         super().__init__(cfg)
@@ -52,27 +53,27 @@ class ClipCrossModel(ClipZeroShot):
 
         return loss
 
-    def get_logit_threshold(self, model, num_noise=100, sigma=3, noise_features=None):
-        if not self.require_source:
-            return super().get_logit_threshold(model, num_noise, sigma, noise_features)
-        else:
-            return None
+    # def get_logit_threshold(self, model, num_noise=100, sigma=3, noise_features=None):
+    #     if not self.require_source:
+    #         return super().get_logit_threshold(model, num_noise, sigma, noise_features)
+    #     else:
+    #         return None
 
-    def predict_ood_indexs(self, logits):
-        if self.require_source:
-            entropy_values = self.get_entropy_from_logits(logits)
-            ood_indexs = entropy_values > self.entropy_threshold
-        else:
-            ood_indexs = super().predict_ood_indexs(logits)
-        return ood_indexs
+    # def predict_ood_indexs(self, logits):
+    #     if self.require_source:
+    #         entropy_values = self.get_entropy_from_logits(logits)
+    #         ood_indexs = entropy_values > self.entropy_threshold
+    #     else:
+    #         ood_indexs = super().predict_ood_indexs(logits)
+    #     return ood_indexs
     
-    def after_training(self):
-        super().after_training()
-        if not self.require_source:
-            self.logit_threshold = self.get_logit_threshold(None, noise_features=self.noise_features)
+    # def after_training(self):
+    #     super().after_training()
+    #     if not self.require_source:
+    #         self.logit_threshold = self.get_logit_threshold(None, noise_features=self.noise_features)
 
-    def get_iid_scores(self, logits):
-        return -self.get_entropy_from_logits(logits)
+    # def get_iid_scores(self, logits):
+    #     return -self.get_entropy_from_logits(logits)
             
     # def before_training(self, cfg=None):
     #     super().before_training(cfg)

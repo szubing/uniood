@@ -112,9 +112,9 @@ def get_save_dir(path_dir, dataset, method, *args):
 
 
 def get_save_logits_dir(path_dir, black_box_type, dataset, source_domain, target_domain, 
-                        n_share, n_source_private, seed):
+                        n_share, n_source_private, seed, prefix='target_logits'):
     filename = os.path.join(path_dir,
-                            'target_logits', 
+                            prefix, 
                             f'{black_box_type}'.replace('/', ''),
                             f'{dataset}',)
     
@@ -123,9 +123,9 @@ def get_save_logits_dir(path_dir, black_box_type, dataset, source_domain, target
 
 
 def get_save_scores_dir(path_dir, black_box_type, dataset, source_domain, target_domain, 
-                        n_share, n_source_private, seed):
+                        n_share, n_source_private, seed, prefix='iid_scores'):
     filename = os.path.join(path_dir,
-                            'iid_scores', 
+                            prefix, 
                             f'{black_box_type}'.replace('/', ''),
                             f'{dataset}',)
     
@@ -134,9 +134,9 @@ def get_save_scores_dir(path_dir, black_box_type, dataset, source_domain, target
 
 
 def get_save_checkpoint_dir(path_dir, black_box_type, dataset, source_domain, target_domain, 
-                        n_share, n_source_private, seed):
+                        n_share, n_source_private, seed, prefix='checkpoints'):
     filename = os.path.join(path_dir,
-                            'checkpoints', 
+                            prefix, 
                             f'{black_box_type}'.replace('/', ''),
                             f'{dataset}',)
     

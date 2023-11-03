@@ -1,0 +1,26 @@
+dataset,n_share,n_source_private,method,source,target,OA,AA,Closed-set OA,Closed-set AA
+office31,10,21,AutoDistill,amazon,dslr,85.99,88.23,93.63,94.63
+office31,10,21,AutoDistill,amazon,webcam,89.49,90.53,96.95,97.3
+office31,10,21,AutoDistill,dslr,amazon,95.82,95.92,97.08,97.15
+office31,10,21,AutoDistill,dslr,webcam,94.58,95.07,96.95,97.3
+office31,10,21,AutoDistill,webcam,amazon,95.82,95.92,97.08,97.15
+office31,10,21,AutoDistill,webcam,dslr,92.99,94.17,93.63,94.63
+officehome,25,40,AutoDistill,Art,Clipart,71.7,71.84,82.01,82.16
+officehome,25,40,AutoDistill,Art,Product,89.34,89.8,90.72,91.22
+officehome,25,40,AutoDistill,Art,RealWorld,92.71,91.38,94.26,93.1
+officehome,25,40,AutoDistill,Clipart,Art,80.5,78.31,91.18,87.84
+officehome,25,40,AutoDistill,Clipart,Product,89.02,89.45,90.7,91.23
+officehome,25,40,AutoDistill,Clipart,RealWorld,92.44,91.06,94.26,93.1
+officehome,25,40,AutoDistill,Product,Art,67.95,67.88,90.54,87.29
+officehome,25,40,AutoDistill,Product,Clipart,59.58,61.56,81.99,82.12
+officehome,25,40,AutoDistill,Product,RealWorld,86.36,85.19,94.15,92.97
+officehome,25,40,AutoDistill,RealWorld,Art,73.19,72.21,90.82,87.65
+officehome,25,40,AutoDistill,RealWorld,Clipart,64.1,65.38,82.15,82.31
+officehome,25,40,AutoDistill,RealWorld,Product,87.34,87.75,90.59,91.09
+visda,6,6,AutoDistill,syn,real,66.49,75.98,88.08,92.6
+domainnet,150,195,AutoDistill,painting,real,79.31,79.28,89.48,89.32
+domainnet,150,195,AutoDistill,painting,sketch,60.58,61.37,77.6,78.38
+domainnet,150,195,AutoDistill,real,painting,55.24,53.39,76.99,75.06
+domainnet,150,195,AutoDistill,real,sketch,58.86,60.03,77.5,78.35
+domainnet,150,195,AutoDistill,sketch,painting,56.29,54.26,77.04,75.08
+domainnet,150,195,AutoDistill,sketch,real,78.58,78.6,89.43,89.28

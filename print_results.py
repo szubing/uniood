@@ -13,7 +13,12 @@ parser = argparse.ArgumentParser()
 
 DATASETS = ['office31', 'officehome', 'visda', 'domainnet']
 
-METHODS = ['SO', 'DANCE', 'OVANet', 'UniOT', 'ClipCrossModel', 'ClipZeroShot', 'debug0.3']
+METHODS = ['SO', 'DANCE', 'OVANet', 'UniOT', 'WiSE-FT', 'ClipCrossModel', 'ClipZeroShot', 'ClipDistill', 'ClipDistillTemp1.0', 'AutoDistill']
+# METHODS = ['SO', 'SO3.0', 'SO1.5', 'ClipDistill', 'ClipDistill3.0', 'ClipDistill1.5']
+# METHODS += ['SOMarginP', 'ClipDistillMarginP']
+# METHODS += ['FocalDistill']
+METHODS += ['Auto_only_cal', 'Auto_wo_iid', 'Auto_wo_nll', 'Auto_wo_ood']
+# METHODS = ['AutoDistill']
 
 # METHODS += ['debug0.1', 'debug0.2', 'debug0.3', 'debug0.4', 'debug0.5', 'debug0.6', 'debug0.7', 'debug0.8', 'debug0.9', 'debug1.0'] # for hyperparameters analysis for CLIP distillation
 
@@ -65,7 +70,7 @@ MAX_ITERS = {'open-partial': {'office31': 5000,
 }
 
 # setting
-STETTING = 'partial'
+STETTING = 'closed'
 # ITERS = [1000 * (i+1) for i in range(10)]
 ITERS = ['final']
 
@@ -75,42 +80,41 @@ RESULTS_TERMS = ['AA', 'H-score', 'H3-score', 'AUROC', 'OSCR']
 
 if STETTING == 'closed' or STETTING == 'partial':
     RESULTS_TERMS = ['OA', 'AA', 'Closed-set OA', 'Closed-set AA']
-    DATASETS = ['office31', 'officehome', 'visda']
 
 
 def main(args):
     global METHODS, MAX_ITERS, STETTING
+
+    # args.backbone = 'dinov2_vitl14'
+    # args.backbone = 'resnet50'
+    # args.backbone = 'ViT-B/16'
+    # args.suffix = '_my'
+    save_result_dir = 'results'
+    if args.suffix is not None:
+        args.result_dir = args.result_dir + args.suffix
+        save_result_dir += args.suffix
+
+    result_dir_resnet50 = None
     args.fixed_backbone = True
     if not 'ViT' in args.backbone:
-        METHODS = ['SO', 'DANCE', 'OVANet', 'UniOT',]
-    if args.backbone == 'RN50':
-        assert STETTING == 'open-partial'
-        METHODS = ['SO', 'DANCE', 'OVANet', 'UniOT', 'ClipZeroShot', 'ClipCrossModel']
+        METHODS = ['SO', 'DANCE', 'OVANet', 'UniOT', 'ClipDistill', 'AutoDistill']
     if args.backbone == 'resnet50':
         args.fixed_backbone = False
         assert STETTING == 'open-partial'
-        args.result_dir = './experiments-0425'
-        MAX_ITERS = {'open-partial': {'office31': 10000,
-                            'officehome': 10000,
-                            'visda': 10000,
-                            'domainnet': 10000},}
-        METHODS = ['SO', 'DANCE', 'OVANet', 'UniOT',]
-    if args.backbone == 'ViT-L/14@336px':
-        METHODS += ['WiSE-FT']
+        result_dir_resnet50 = '/data1/deng.bin/coding/uniood/experiments-0425'
         
     overall_mean_steps = []
     for step in ITERS:
         overall_mean, all_columns_mean, all_columns_std = [], [], []
         for dataset in DATASETS:
             for method in METHODS:
-                if args.backbone == 'RN50' and method != 'OVANet':
+                # if method in ['SOMarginP', 'ClipDistillMarginP']:
+                #     args.result_dir = './experimentsMarginP'
+                # else:
+                #     args.result_dir = './experiments'
+                max_iter = MAX_ITERS[STETTING][dataset]
+                if args.backbone == 'resnet50' and method in ('SO', 'DANCE', 'OVANet', 'UniOT'):
                     max_iter = 10000
-                    args.result_dir = './experiments-0425'
-                elif args.backbone == 'RN50':
-                    max_iter = MAX_ITERS[STETTING][dataset]
-                    args.result_dir = './experiments'
-                else:
-                    max_iter = MAX_ITERS[STETTING][dataset]
 
                 classifier_head = args.classifier_head
                 result_data_method = {}
@@ -124,7 +128,7 @@ def main(args):
                                 else:
                                     seed_ = seed
                                 
-                                save_dir = get_save_dir(args.result_dir, 
+                                save_dir = get_save_dir(result_dir_resnet50 if (result_dir_resnet50 is not None and method in ('SO', 'DANCE', 'OVANet', 'UniOT')) else args.result_dir, 
                                                         dataset, 
                                                         method,
                                                         source_domain, 
@@ -158,14 +162,14 @@ def main(args):
 
         all_headers = ['dataset', 'n_share', 'n_source_private', 'method', 'source', 'target'] + RESULTS_TERMS
         result_path = f'{args.backbone}-{args.optimizer}-{args.base_lr}-{args.classifier_head}-{args.fixed_backbone}-{args.fixed_BN}-{args.image_augmentation}-{args.batch_size}'.replace('/','')
-        save_all_csv(all_headers, all_columns_mean, os.path.join('results', STETTING, f'{step}', result_path, 'mean.csv'))
-        save_all_csv(all_headers, all_columns_std, os.path.join('results', STETTING, f'{step}', result_path, 'std.csv'))
+        save_all_csv(all_headers, all_columns_mean, os.path.join(save_result_dir, STETTING, f'{step}', result_path, 'mean.csv'))
+        save_all_csv(all_headers, all_columns_std, os.path.join(save_result_dir, STETTING, f'{step}', result_path, 'std.csv'))
 
         overall_headers = ['dataset', 'n_share', 'n_source_private', 'method'] + RESULTS_TERMS
-        save_all_csv(overall_headers, overall_mean, os.path.join('results', STETTING, f'{step}', result_path, 'mean_average.csv'))
+        save_all_csv(overall_headers, overall_mean, os.path.join(save_result_dir, STETTING, f'{step}', result_path, 'mean_average.csv'))
 
     overall_headers_steps = ['dataset', 'n_share', 'n_source_private', 'method', 'step'] + RESULTS_TERMS
-    save_all_csv(overall_headers_steps, overall_mean_steps, os.path.join('results', STETTING, result_path, 'mean_average.csv'))
+    save_all_csv(overall_headers_steps, overall_mean_steps, os.path.join(save_result_dir, STETTING, result_path, 'mean_average.csv'))
 
 
 def average_seed(all_seed_dict):
@@ -218,6 +222,12 @@ if __name__ == "__main__":
         type=str,
         default=default.RESULT_DIR,
         help="where to save experiment results",
+    )
+    parser.add_argument(
+        "--suffix",
+        type=str,
+        default=None,
+        help="the save_file suffix after result_dir",
     )
     parser.add_argument(
         "--backbone",

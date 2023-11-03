@@ -1,0 +1,5 @@
+dataset,n_share,n_source_private,method,step,OA,AA,Closed-set OA,Closed-set AA
+office31,31,0,AutoDistill,final,73.3,73.51,79.25,79.5
+officehome,65,0,AutoDistill,final,71.57,69.37,83.89,82.44
+visda,12,0,AutoDistill,final,66.43,70.11,87.31,89.75
+domainnet,345,0,AutoDistill,final,55.75,52.58,74.02,71.66

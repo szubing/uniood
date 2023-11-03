@@ -9,6 +9,8 @@ METHODS=(
         "UniOT"
         "WiSE-FT"
         "ClipDistill"
+        "AutoDistill"
+        "Auto_only_cal"
 )
 SEED=(1 2 3)
 BACKBONE=(

@@ -5,7 +5,7 @@ import torch.nn.functional as F
 
 from models import CLIP_MODELS
 from methods.source_only import SourceOnly
-from tools.utils import get_save_logits_dir, get_save_checkpoint_dir
+from tools.utils import get_save_logits_dir, get_save_checkpoint_dir, get_save_scores_dir
 
 class ClipDistill(SourceOnly):
     require_source = False
@@ -16,27 +16,33 @@ class ClipDistill(SourceOnly):
                  'visda': '{}_{}-True_prototype_sgd_32_0.01_False_none_final-{}',
                  'domainnet': '{}_{}-True_prototype_sgd_32_0.01_False_none_final-{}'},
 
-                 'temperature': 0.3,
+                 'temperature': 1.0,
                 }
+    # threshold_mode = 'from_validation'
     # hyperas_analysis = True
 
     def __init__(self, cfg) -> None:
         self.in_clip = cfg.backbone in CLIP_MODELS
         if self.in_clip:
             cfg.fixed_backbone = True
-            black_box_backbone = cfg.backbone.replace('/', '')
-            black_box_method = 'ClipZeroShot'
-            seed = 1
-        else:
-            raise NotImplementedError()
+        black_box_backbone = 'ViT-L14@336px'
+        black_box_method = 'ClipZeroShot'
+        seed = 1
+        # else:
+            # raise NotImplementedError()
 
         cfg.classifier_head = 'prototype'
 
-        if cfg.debug is not None: # hyperas_analysis = True
-            cfg.method = f'debug{cfg.debug}' # for debug use
-            self.temp = cfg.debug
+        # if cfg.debug is not None: # hyperas_analysis = True
+        #     cfg.method = f'debug{cfg.debug}' # for debug use
+        #     self.temp = cfg.debug
+        # else:
+        #     self.temp = self._hyparas['temperature']
+        self.temp = self._hyparas['temperature']
+        if self.temp == 1.0:
+            cfg.method += 'Temp1.0'
         else:
-            self.temp = self._hyparas['temperature']
+            self.temp = 0.3
         
         super().__init__(cfg)
 
@@ -49,7 +55,20 @@ class ClipDistill(SourceOnly):
                                         cfg.n_source_private, 
                                         seed)
         
-        self.target_logits = torch.load(file_path).to(self.device)
+        try:
+            self.target_logits = torch.load(file_path).to(self.device)
+        except:
+            scores_pth = get_save_scores_dir(cfg.feature_dir, 
+                                        self._hyparas['source_black_box'][cfg.dataset].format(black_box_method, black_box_backbone, cfg.max_iter), 
+                                        cfg.dataset, 
+                                        cfg.source_domain, 
+                                        cfg.target_domain, 
+                                        cfg.n_share, 
+                                        cfg.n_source_private, 
+                                        seed,
+                                        prefix='scores')
+            self.target_logits = torch.load(scores_pth)['target_logits'].to(self.device)
+
         self.logits, self.pseudo_labels = torch.max(self.target_logits, dim=-1)
 
         self.file_path_checkpoint = get_save_checkpoint_dir(cfg.feature_dir, 

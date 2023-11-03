@@ -26,7 +26,18 @@ IMAGENET_PIXEL_STD = [0.229, 0.224, 0.225]
 # Random crop
 CROP_PADDING = 0
 # Random resized crop
-RRCROP_SCALE = (0.08, 1.0)
+RRCROP_SCALE = (0.5, 1.0)
+
+
+class TransformTwice:
+    def __init__(self, transform):
+        self.transform = transform
+
+    def __call__(self, inp):
+        out1 = self.transform(inp)
+        out2 = self.transform(inp)
+        return out1, out2
+
 
 def build_transform(image_augmentation,
                     backbone_name,
@@ -85,6 +96,14 @@ def build_transform(image_augmentation,
             ToTensor(),
             normalize,
         ])
+    elif image_augmentation == 'twoCrops':
+        transform_ = Compose([
+            RandomResizedCrop(size=size, scale=rrcrop_scale, interpolation=interpolation),
+            RandomHorizontalFlip(p=0.5),
+            ToTensor(),
+            normalize,
+        ])
+        transform = TransformTwice(transform_)
     else:
         raise ValueError("Invalid image augmentation method: {}".format(image_augmentation))
         

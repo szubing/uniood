@@ -7,12 +7,17 @@ from tools.utils import get_save_checkpoint_dir
 
 from models import build_backbone, build_head, CLIP_MODELS, DINOv2_MODELS
 
+THRESHOLD_MODES = ('fixed', 'from_validation')
+SCORE_MODES = ('MSP', 'MLS', 'ENTROPY', 'MarginP')
+
 class SourceOnly(nn.Module):
     """
     Implement SO by ERM
     """
     require_source = True
     require_target = False
+    threshold_mode = 'fixed' # 'fixed: set a fixed threshold; from_validataion: set the threshold based on the validation set'
+    score_mode = 'ENTROPY'
     
     def __init__(self, cfg) -> None:
         super().__init__()
@@ -20,6 +25,8 @@ class SourceOnly(nn.Module):
         Build the torch models we want to optimize in here, 
             and note that the pretrained model should be named as 'self.backbone'.
         """
+        assert self.threshold_mode in THRESHOLD_MODES
+        assert self.score_mode in SCORE_MODES
 
         self.device = torch.device(cfg.device)
         self.num_classes = cfg.n_share + cfg.n_source_private
@@ -32,6 +39,17 @@ class SourceOnly(nn.Module):
         if cfg.fixed_backbone:
             for p in self.backbone.parameters():
                 p.requires_grad_(False)
+
+        if cfg.ft_norm_only:
+            assert cfg.fixed_backbone is False
+            import os
+            cfg.result_dir = os.path.join(cfg.result_dir, 'FT_NORM_ONLY')
+            cfg.feature_dir = os.path.join(cfg.feature_dir, 'FT_NORM_ONLY')
+            for key, value in self.backbone.named_parameters(recurse=True):
+                if 'norm' in key:
+                    value.requires_grad_(True)
+                else:
+                    value.requires_grad_(False)
         
         if cfg.backbone in DINOv2_MODELS:
             self.feature_dim = self.backbone.num_features
@@ -46,8 +64,15 @@ class SourceOnly(nn.Module):
         self.classifier = self.classifier.to(self.device)
         self.criterion = self.criterion.to(self.device)
 
-        self.entropy_threshold = torch.log(torch.tensor(self.num_classes)) / 2
-        self.entropy_threshold = self.entropy_threshold.to(self.device)
+        if self.score_mode == 'ENTROPY':
+            threshold = -torch.log(torch.tensor(self.num_classes)) / 2
+        elif self.score_mode == 'MSP':
+            threshold = 0.5
+        elif self.score_mode == 'MLS':
+            threshold = 0
+        elif self.score_mode == 'MarginP':
+            threshold = torch.sqrt(torch.tensor(self.num_classes-1))/self.num_classes
+        self.set_threshold(threshold)
 
         self.fixed_backbone = cfg.fixed_backbone
         self.classifier_type = cfg.classifier_head
@@ -114,10 +139,42 @@ class SourceOnly(nn.Module):
         if self.classifier_type == 'prototype':
             self.classifier.weight_norm()
 
+    def before_predict(self, cfg=None):
+        self.eval()
+        if isinstance(cfg, dict):
+            # check wheather to set threshold based on the validation set
+            if 'val_data_loader' in cfg.keys() and self.threshold_mode == 'from_validation':
+                val_data_loader = cfg['val_data_loader']
+                validation_iid_scores = []
+                for batch_datas in val_data_loader:
+                    batched_inputs = {'test_images': batch_datas['img']}
+                    result_dict = self.predict(batched_inputs=batched_inputs)
+                    validation_iid_scores.append(result_dict['iid_scores'].cpu().detach())
+                
+                val_scores = torch.cat(validation_iid_scores)
+                threshold = val_scores.quantile(q=0.01)
+                print('set threhold to be: ', threshold.item())
+                self.set_threshold(threshold)
+            
+            if 'test_data_loader' in cfg.keys():
+                self.test_dataloader = cfg['test_data_loader']
+        
+        # if self.score_mode == 'ENTROPY' and self.cfg.debug is not None:
+        #     threshold = -torch.log(torch.tensor(self.num_classes)) / self.cfg.debug
+        #     print('set threhold to be: ', threshold.item())
+        #     self.set_threshold(threshold)
+        #     self.cfg.method = self.cfg.method + str(self.cfg.debug)
+        #     self.cfg.result_dir = self.cfg.result_dir + '_entropy'
+
+        if self.cfg.eval_only:
+            self.cfg.method = self.cfg.method + self.score_mode
+            self.cfg.result_dir = self.cfg.result_dir + self.score_mode
+
+
     def predict(self, batched_inputs):
         """
         This function return the predict dict results after receiving a dict of batched_inputs.
-        1. the return dict should includes folloing keys():
+        1. the return dict should includes following keys():
             e.g., result_dict = {'predict_labels': None,
                                  'predict_labels_without_ood': None,
                                  'features': None,
@@ -149,7 +206,20 @@ class SourceOnly(nn.Module):
         return result_dict
     
     def get_iid_scores(self, logits):
-        return -self.get_entropy_from_logits(logits)
+        if self.score_mode == 'ENTROPY':
+            return -self.get_entropy_from_logits(logits)
+        elif self.score_mode == 'MLS':
+            max_logits, _ = torch.max(logits, -1)
+            return max_logits
+        elif self.score_mode == 'MSP':
+            max_probs, _ = torch.max(F.softmax(logits, dim=-1), -1)
+            return max_probs
+        elif self.score_mode == 'MarginP':
+            probs = F.softmax(logits, dim=-1)
+            sort_probs = probs.sort(-1)[0]
+            return sort_probs[:,-1] - sort_probs[:,-2]
+        else:
+            raise ValueError
 
     def get_entropy_from_logits(self, logits):
         probs = F.softmax(logits, dim=1)
@@ -157,10 +227,17 @@ class SourceOnly(nn.Module):
         return entropy_values
     
     def predict_ood_indexs(self, logits):
-        entropy_values = self.get_entropy_from_logits(logits)
-        ood_indexs = entropy_values > self.entropy_threshold
+        iid_scores = self.get_iid_scores(logits)
+        ood_indexs = iid_scores <= self.threshold
         return ood_indexs
-
+    
+    def set_threshold(self, threshold):
+        if isinstance(threshold, torch.Tensor):
+            self.threshold = threshold.to(self.device)
+        elif isinstance(threshold, int) or isinstance(threshold, float):
+            self.threshold = threshold
+        else:
+            ValueError('threshold type not support')
             
 
 

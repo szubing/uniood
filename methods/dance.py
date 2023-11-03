@@ -13,6 +13,8 @@ class Dance(SourceOnly):
                 'momentum': 0.0,
                 'eta': 0.05,
                 'entropy_margin': 0.5}
+    score_mode = 'ENTROPY'
+    
     def __init__(self, cfg) -> None:
         cfg.classifier_head = 'prototype'
         super().__init__(cfg)
@@ -50,7 +52,7 @@ class Dance(SourceOnly):
                          feat_mat2.size(0)).bool().to(self.device)
         feat_mat2.masked_fill_(mask, -1 / self._hyparas['temperature'])
         loss_nc = self._hyparas['eta'] * self.get_entropy_from_logits(torch.cat([out_t, feat_mat, feat_mat2], 1)).mean()
-        loss_ent = self._hyparas['eta'] * self.entropy_margin(out_t, self.entropy_threshold, self._hyparas['entropy_margin'])
+        loss_ent = self._hyparas['eta'] * self.entropy_margin(out_t, -self.threshold, self._hyparas['entropy_margin'])
         loss = {'loss_nc': loss_nc, 'loss_source': loss_s, 'loss_entropy': loss_ent}
         return loss
 

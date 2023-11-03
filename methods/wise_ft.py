@@ -14,6 +14,7 @@ class WiSE_FT(SourceOnly):
                         'visda': '{}_{}-True_prototype_sgd_32_0.01_False_none_final-{}',
                         'domainnet': '{}_{}-True_prototype_sgd_32_0.01_False_none_final-{}'},
                  'alpha': 0.5}
+    # threshold_mode = 'from_validation'
 
     def __init__(self, cfg) -> None:
         self.in_clip = cfg.backbone in CLIP_MODELS

@@ -4,11 +4,12 @@ from tqdm import tqdm
 import torch
 
 from methods import method_classes
+from methods import Oracle
 from engine.scheduler import build_lr_scheduler
 from engine.optimizer import build_optimizer
 from engine.evaluator import UniDAEvaluator
 from engine.dataloader import build_data_loaders
-from tools.utils import get_save_logits_dir, get_save_scores_dir, get_save_dir, save_as_json
+from tools.utils import get_save_scores_dir, get_save_dir, save_as_json
 
 
 class DefaultTrainer(ABC):
@@ -58,6 +59,10 @@ class DefaultTrainer(ABC):
     @abstractmethod
     def test(self, cfg):
         return
+    
+    @abstractmethod
+    def load(self, checkpoint_path=None):
+        return
 
 
 class UniDaTrainer(DefaultTrainer):
@@ -105,10 +110,18 @@ class UniDaTrainer(DefaultTrainer):
         n_source_classes = cfg.n_share + cfg.n_source_private
         return UniDAEvaluator(n_source_classes)
     
+    def load(self, checkpoint_path=None):
+        if checkpoint_path is None:
+            checkpoint_path = self.model.get_save_checkpoint_dir(self.cfg.fixed_backbone)
+        
+        state_dict = torch.load(checkpoint_path)
+        self.model.load_state_dict(state_dict, strict=False)
+    
     def train(self, cfg=None):
         self.model.before_training(cfg={'source_data_loader': self.source_data_loader,
                                         'target_data_loader': self.target_data_loader, 
-                                        'test_data_loader': self.test_data_loader})
+                                        'test_data_loader': self.test_data_loader,
+                                        'val_data_loader': self.val_data_loader})
         source_loader_iter = iter(self.source_data_loader)
         target_loader_iter = iter(self.target_data_loader)
         for step in range(self.max_iter):
@@ -138,6 +151,9 @@ class UniDaTrainer(DefaultTrainer):
                               'source_labels': source_labels, 
                               'target_images': target_images,
                               'target_indexs': target_indexs}
+            
+            if isinstance(self.model, Oracle):
+                batched_inputs['target_labels'] = target_batch_datas['label']
             
             self.model.before_forward()
             loss_dict = self.model(batched_inputs=batched_inputs)
@@ -173,7 +189,10 @@ class UniDaTrainer(DefaultTrainer):
         self.model.after_training()
 
     def test(self, cfg=None):
-        self.model.eval()
+        self.model.before_predict(cfg={'val_data_loader': self.val_data_loader, 
+                                       'test_data_loader': self.test_data_loader})
+
+        # evaluation on test data
         self.evaluator.reset() # remember to reset, this is very important
         if cfg is not None:
             current_step = cfg['step']
@@ -181,6 +200,7 @@ class UniDaTrainer(DefaultTrainer):
             current_step = 'final'
         logits = []
         iid_scores = []
+        true_labels = []
         predict_labels = []
         predict_labels_without_ood = []
         for batch_datas in tqdm(self.test_data_loader):
@@ -193,6 +213,8 @@ class UniDaTrainer(DefaultTrainer):
                                    result_dict['iid_scores'],
                                    result_dict['features'])
             
+            true_labels.append(batch_datas['label'].cpu().detach())
+
             if result_dict['logits'] is not None:
                 logits.append(result_dict['logits'].cpu().detach())
             if result_dict['iid_scores'] is not None:
@@ -202,18 +224,8 @@ class UniDaTrainer(DefaultTrainer):
             if result_dict['predict_labels_without_ood'] is not None:
                 predict_labels_without_ood.append(result_dict['predict_labels_without_ood'].cpu().detach())
 
-        if len(logits) != 0:
-            save_logits_pth = get_save_logits_dir(self.cfg.feature_dir, 
-                                                f'{self.cfg.method}_{self.cfg.backbone}-{self.cfg.fixed_backbone}_{self.cfg.classifier_head}_{self.cfg.optimizer}_{self.cfg.batch_size}_{self.cfg.base_lr}_{self.cfg.fixed_BN}_{self.cfg.image_augmentation}_{current_step}-{self.cfg.max_iter}', 
-                                                self.cfg.dataset, 
-                                                self.cfg.source_domain, 
-                                                self.cfg.target_domain, 
-                                                self.cfg.n_share, 
-                                                self.cfg.n_source_private, 
-                                                self.cfg.seed)
-            torch.save(torch.cat(logits), save_logits_pth)
-
-        if len(iid_scores) != 0: 
+        # save target logits/scores/prediction/ground_truth results
+        if not self.cfg.eval_only:
             save_scores_pth = get_save_scores_dir(self.cfg.feature_dir, 
                                                 f'{self.cfg.method}_{self.cfg.backbone}-{self.cfg.fixed_backbone}_{self.cfg.classifier_head}_{self.cfg.optimizer}_{self.cfg.batch_size}_{self.cfg.base_lr}_{self.cfg.fixed_BN}_{self.cfg.image_augmentation}_{current_step}-{self.cfg.max_iter}', 
                                                 self.cfg.dataset, 
@@ -221,10 +233,17 @@ class UniDaTrainer(DefaultTrainer):
                                                 self.cfg.target_domain, 
                                                 self.cfg.n_share, 
                                                 self.cfg.n_source_private, 
-                                                self.cfg.seed)
-            save_data = {'iid_scores': torch.cat(iid_scores), 'predict_labels': torch.cat(predict_labels), 'predict_labels_without_ood': torch.cat(predict_labels_without_ood)}
+                                                self.cfg.seed,
+                                                prefix='scores')
+            
+            save_data = {'true_labels': torch.cat(true_labels),
+                        'target_logits': torch.cat(logits) if len(logits) != 0 else None,
+                        'iid_scores': torch.cat(iid_scores) if len(iid_scores)!=0 else None, 
+                        'predict_labels': torch.cat(predict_labels) if len(predict_labels)!=0 else None, 
+                        'predict_labels_without_ood': torch.cat(predict_labels_without_ood) if len(predict_labels_without_ood)!=0 else None}
             torch.save(save_data, save_scores_pth)
         
+        # save evaluation results
         results = self.evaluator.evaluate()
         self._write_metrics(results)
 

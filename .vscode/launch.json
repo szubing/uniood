@@ -1,0 +1,19 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: 当前文件",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "env": {"CUDA_VISIBLE_DEVICES":"0"}, 
+            // "args": ["--method", "AutoDistill", "--backbone", "ViT-L/14@336px", "--fixed_backbone", "--dataset", "domainnet", "--n_share", "345", "--n_source_private", "0", "--source_domain", "painting", "--target_domain", "real", "--max_iter", "20000"]
+            // "args": ["--method", "AutoDistill", "--backbone", "ViT-L/14@336px", "--fixed_backbone", "--dataset", "visda", "--n_share", "6", "--n_source_private", "3", "--source_domain", "syn", "--target_domain", "real", "--max_iter", "10000"]
+        }
+    ]
+}

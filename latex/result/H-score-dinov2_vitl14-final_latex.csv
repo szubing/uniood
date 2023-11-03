@@ -1,5 +1,0 @@
-method,&,dinov2_vitl14office31open-partial,&,dinov2_vitl14office31open,&,dinov2_vitl14office31closed,&,dinov2_vitl14office31partial,&,dinov2_vitl14officehomeopen-partial,&,dinov2_vitl14officehomeopen,&,dinov2_vitl14officehomeclosed,&,dinov2_vitl14officehomepartial,&,dinov2_vitl14visdaopen-partial,&,dinov2_vitl14visdaopen,&,dinov2_vitl14visdaclosed,&,dinov2_vitl14visdapartial,&,dinov2_vitl14domainnetopen-partial,&,dinov2_vitl14domainnetopen,&,Avg,\\
-SO,&,89.6,&,92.29,&,\textbf{83.99},&,90.5,&,82.77,&,81.76,&,66.72,&,64.41,&,57.53,&,64.49,&,42.45,&,38.06,&,68.38,&,70.36,&,70.95,\\
-DANCE,&,\textbf{91.93},&,\textbf{94.98},&,81.67,&,80.32,&,84.38,&,81.93,&,64.28,&,57.03,&,53.89,&,65.26,&,34.87,&,26.49,&,68.74,&,70.51,&,68.31,\\
-OVANet,&,86.51,&,88.7,&,82.17,&,\textbf{92.02},&,76.83,&,76.2,&,\textbf{70.6},&,\textbf{71.29},&,\textbf{58.03},&,62.44,&,\textbf{56.91},&,\textbf{61.51},&,55.76,&,57.49,&,\textbf{71.18},\\
-UniOT,&,89.16,&,94.52,&,65.44,&,41.04,&,\textbf{87.54},&,\textbf{85.56},&,55.81,&,38.55,&,56.6,&,\textbf{71.56},&,39.31,&,29.62,&,\textbf{69.86},&,\textbf{72.64},&,64.09,\\

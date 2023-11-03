@@ -9,6 +9,8 @@ METHODS=(
         "UniOT"
         "WiSE-FT"
         "ClipDistill"
+        "AutoDistill"
+        "Auto_only_cal"
 )
 SEED=(1 2 3)
 BACKBONE=(
@@ -133,43 +135,43 @@ do
     done
 done
 
-# # domainnet is not need for cloased and partial DA because of the lack of samples in some classes
-# DATASET="domainnet"
-# DOMAINS=("painting"
-#          "real" 
-#          "sketch")
+# domainnet is not need for cloased and partial DA because of the lack of samples in some classes
+DATASET="domainnet"
+DOMAINS=("painting"
+         "real" 
+         "sketch")
 
-# for method in ${METHODS[@]}
-# do
-#     if [ $method == "ClipZeroShot" ]; then
-#         SEED=(1); else
-#         SEED=(1 2 3)
-#     fi
-#     for backbone in ${BACKBONE[@]}
-#     do
-#         for sdomain in ${DOMAINS[@]}
-#         do
-#             for tdomain in ${DOMAINS[@]}
-#             do
-#                 if [ $sdomain != $tdomain ]; then
-#                     for seed in ${SEED[@]}
-#                     do
-#                         python main.py \
-#                         --dataset ${DATASET} \
-#                         --source_domain ${sdomain} \
-#                         --target_domain ${tdomain} \
-#                         --n_share 150 \
-#                         --n_source_private 0 \
-#                         --max_iter 10000 \
-#                         --seed ${seed} \
-#                         --method ${method} \
-#                         --backbone ${backbone} \
-#                         --fixed_backbone \
-#                         --save_checkpoint \
-#                         --num_workers 0
-#                     done
-#                 fi
-#             done
-#         done
-#     done
-# done
+for method in ${METHODS[@]}
+do
+    if [ $method == "ClipZeroShot" ]; then
+        SEED=(1); else
+        SEED=(1 2 3)
+    fi
+    for backbone in ${BACKBONE[@]}
+    do
+        for sdomain in ${DOMAINS[@]}
+        do
+            for tdomain in ${DOMAINS[@]}
+            do
+                if [ $sdomain != $tdomain ]; then
+                    for seed in ${SEED[@]}
+                    do
+                        python main.py \
+                        --dataset ${DATASET} \
+                        --source_domain ${sdomain} \
+                        --target_domain ${tdomain} \
+                        --n_share 150 \
+                        --n_source_private 195 \
+                        --max_iter 20000 \
+                        --seed ${seed} \
+                        --method ${method} \
+                        --backbone ${backbone} \
+                        --fixed_backbone \
+                        --save_checkpoint \
+                        --num_workers 0
+                    done
+                fi
+            done
+        done
+    done
+done

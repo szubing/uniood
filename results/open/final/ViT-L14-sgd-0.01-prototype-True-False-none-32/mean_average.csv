@@ -1,0 +1,5 @@
+dataset,n_share,n_source_private,method,AA,H-score,H3-score,AUROC,OSCR
+office31,10,0,AutoDistill,85.2,90.76,89.4,98.9,97.71
+officehome,15,0,AutoDistill,86.06,85.14,82.97,94.28,90.83
+visda,6,0,AutoDistill,73.17,80.93,80.42,91.27,86.11
+domainnet,150,0,AutoDistill,64.55,73.64,73.1,86.14,73.87

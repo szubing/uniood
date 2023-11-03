@@ -16,6 +16,8 @@ class ClipZeroShot(SourceOnly):
     require_source = False
     require_target = False
     text_templetes = 'ensemble' # choises are ['classname', 'vanilla', 'hand_crafted', 'ensemble', 'template_mining']
+    # threshold_mode = 'from_validation'
+    score_mode = 'MLS'
     
     def __init__(self, cfg) -> None:
         cfg.fixed_backbone = True
@@ -31,7 +33,7 @@ class ClipZeroShot(SourceOnly):
         print(f"{len(self.classnames)} classes, {len(self.templates)} templates")
         self.classifier.fc.weight.data, self.text_features, self.text_labels = text_information(clip_model, self.classnames, self.templates, self.device)
 
-        self.logit_threshold =  self.get_logit_threshold(clip_model.visual)
+        # self.logit_threshold =  self.get_logit_threshold(clip_model.visual)
 
         clip_model = None
         torch.cuda.empty_cache()
@@ -47,31 +49,31 @@ class ClipZeroShot(SourceOnly):
     def forward(self, batched_inputs):
         pass
 
-    def get_iid_scores(self, logits):
-        max_logits, predict_labels = torch.max(logits, -1)
-        return max_logits
+    # def get_iid_scores(self, logits):
+    #     max_logits, predict_labels = torch.max(logits, -1)
+    #     return max_logits
 
-    def predict_ood_indexs(self, logits):
-        max_logits, _ = torch.max(logits, -1)
-        ood_indexs = max_logits < self.logit_threshold
-        return ood_indexs
+    # def predict_ood_indexs(self, logits):
+    #     max_logits, _ = torch.max(logits, -1)
+    #     ood_indexs = max_logits < self.logit_threshold
+    #     return ood_indexs
     
-    def get_logit_threshold(self, model, num_noise=100, sigma=3, noise_features=None):
-        if noise_features is None:
-            normalize = Normalize(mean=CLIP_PIXEL_MEAN, std=CLIP_PIXEL_STD)
-            noise_imges = torch.rand(num_noise, 3, model.input_resolution, model.input_resolution)
-            with torch.no_grad():
-                noise_features = model(normalize(noise_imges.to(self.device)))
-                self.noise_features = noise_features
+    # def get_logit_threshold(self, model, num_noise=100, sigma=3, noise_features=None):
+    #     if noise_features is None:
+    #         normalize = Normalize(mean=CLIP_PIXEL_MEAN, std=CLIP_PIXEL_STD)
+    #         noise_imges = torch.rand(num_noise, 3, model.input_resolution, model.input_resolution)
+    #         with torch.no_grad():
+    #             noise_features = model(normalize(noise_imges.to(self.device)))
+    #             self.noise_features = noise_features
 
-        with torch.no_grad():
-            noise_logits = self.classifier(noise_features)
+    #     with torch.no_grad():
+    #         noise_logits = self.classifier(noise_features)
 
-        noise_max_logits, _ = noise_logits.max(-1)
-        logit_threshold = noise_max_logits.max() + sigma*(noise_max_logits.max() - noise_max_logits.mean())
-        print('logits_threshold', logit_threshold.item(), ' max:', noise_max_logits.max().item(), ' mean:', noise_max_logits.mean().item())
+    #     noise_max_logits, _ = noise_logits.max(-1)
+    #     logit_threshold = noise_max_logits.max() + sigma*(noise_max_logits.max() - noise_max_logits.mean())
+    #     print('logits_threshold', logit_threshold.item(), ' max:', noise_max_logits.max().item(), ' mean:', noise_max_logits.mean().item())
 
-        return logit_threshold
+    #     return logit_threshold
 
 
 ##########################common functions to use

@@ -1,9 +1,0 @@
-Methods,&,S2R,&,Avg,\\
-SO,&,76.66$\pm$0.3,&,76.66,\\
-DANCE,&,67.86$\pm$1.78,&,67.86,\\
-OVANet,&,76.68$\pm$0.3,&,76.68,\\
-UniOT,&,84.79$\pm$0.6,&,84.79,\\
-WiSE-FT,&,81.45$\pm$0.16,&,81.45,\\
-CLIP cross-model,&,81.15$\pm$0.1,&,81.15,\\
-CLIP zero-shot,&,87.56$\pm$0.0,&,87.56,\\
-CLIP distillation (Ours),&,\textbf{88.05}$\pm$0.0,&,\textbf{88.05},\\

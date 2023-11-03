@@ -52,7 +52,7 @@ def get_num_classes(data_source):
     return max(label_set) + 1
 
 
-def get_lab2cname(data_source):
+def get_lab2cname(data_source, num_classes=None):
     """Get a label-to-classname mapping (dict).
 
     Args:
@@ -61,10 +61,12 @@ def get_lab2cname(data_source):
     container = set()
     for item in data_source:
         container.add((item['label'], item['classname']))
-    mapping = {label: classname for label, classname in container}
+    mapping = {label: classname for label, classname in container} 
     labels = list(mapping.keys())
     labels.sort()
-    classnames = [mapping[label] for label in labels]
+    if num_classes is not None and len(labels) != num_classes:
+        labels = range(num_classes)
+    classnames = [mapping[label] if label in mapping.keys() else '' for label in labels]
     return mapping, classnames
 
 
@@ -87,7 +89,7 @@ class Benchmark(object):
         self.val = val  # validation data source
         self.test = test  # test data source
         self.num_classes = get_num_classes(train)
-        self.lab2cname, self.classnames = get_lab2cname(train)
+        self.lab2cname, self.classnames = get_lab2cname(train, self.num_classes)
         self.train_labels = []
         for item in train:
             self.train_labels.append(item['label'])

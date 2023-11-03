@@ -19,17 +19,19 @@ domain_name_map = {'amazon':'A', 'dslr':'D', 'webcam':'W',
                    'syn':'S',
                    'painting':'P', 'real':'R', 'sketch':'S'}
 
-METHODS = ['SO', 'DANCE', 'OVANet', 'UniOT', 'WiSE-FT', 'ClipCrossModel', 'ClipZeroShot', 'debug0.3']
-# METHODS = ['SO', 'DANCE', 'OVANet', 'UniOT',]
-method_name_map = {'SO':'SO', 'DANCE': 'DANCE', 'OVANet':'OVANet', 'UniOT':'UniOT', 'WiSE-FT':'WiSE-FT', 'ClipCrossModel':'CLIP cross-model', 'ClipZeroShot':'CLIP zero-shot', 'debug0.3':'CLIP distillation (Ours)'}
+# METHODS = ['SO', 'DANCE', 'OVANet', 'UniOT', 'WiSE-FT', 'ClipCrossModel', 'ClipZeroShot', 'AutoDistill']
+METHODS = ['SO', 'DANCE', 'OVANet', 'UniOT', 'ClipDistill']
+method_name_map = {'SO':'SO', 'DANCE': 'DANCE', 'OVANet':'OVANet', 'UniOT':'UniOT', 'WiSE-FT':'WiSE-FT', 'ClipCrossModel':'CLIP cross-model', 'ClipZeroShot':'CLIP zero-shot', 'AutoDistill':'CLIP distillation (Ours)', 'ClipDistill':'CLIP distillation (Ours)'}
 
-SETTINGS = ['open-partial', 'open', 'closed', 'partial']
-# SETTINGS = ['open-partial']
+# SETTINGS = ['open-partial', 'open', 'closed', 'partial']
+SETTINGS = ['open-partial']
 
 METRICS = ['H-score', 'H3-score', 'OSCR']
 
-BACKBONES = ['resnet50', 'dinov2_vitl14', 'ViT-L/14@336px']
+# BACKBONES = ['resnet50', 'dinov2_vitl14', 'ViT-L/14@336px']
 # BACKBONES = ['ViT-L/14@336px']
+# BACKBONES = ['dinov2_vitl14']
+BACKBONES = ['resnet50']
 
 STEP = 'final'
 
@@ -38,8 +40,8 @@ DIR = 'results'
 def main(args):
     for setting in SETTINGS:
         for dataset in DATASETS:
-            if dataset == 'domainnet' and setting in ('closed','partial'):
-                continue
+            # if dataset == 'domainnet' and setting in ('closed','partial'):
+            #     continue
             for backbone in BACKBONES:
                 backbone_name = backbone.replace('/', '')
                 if backbone == 'resnet50':
@@ -55,14 +57,19 @@ def main(args):
                         metric_ = 'Closed-set OA'
                     else:
                         metric_ = metric
-                    
+
                     method_csv = []
                     method_names = []
-                    for method in METHODS:        
-                        if backbone in ('resnet50', 'dinov2_vitl14') and method in ('WiSE-FT', 'ClipCrossModel', 'ClipZeroShot', 'debug0.3'):
+                    for method in METHODS:
+                        if metric == 'OSCR' and method == 'ClipZeroShot':
+                            DIR = 'results_old'
+                        else:
+                            DIR = 'results'
+                                    
+                        if backbone in ('resnet50', 'dinov2_vitl14') and method in ('WiSE-FT', 'ClipCrossModel', 'ClipZeroShot', 'AutoDistill'):
                             continue
-                        if metric in ('H-score', 'H3-score') and method in ('WiSE-FT', 'ClipCrossModel', 'ClipZeroShot', 'debug0.3'):
-                            continue
+                        # if metric in ('H-score', 'H3-score') and method in ('WiSE-FT', 'ClipCrossModel', 'ClipZeroShot', 'debug0.3'):
+                        #     continue
 
                         result_path = f'{backbone_name}-{args.optimizer}-{args.base_lr}-{args.classifier_head}-{fixed_backbone}-{args.fixed_BN}-{args.image_augmentation}-{args.batch_size}'
                         path_load_mean = os.path.join(DIR, setting, f'{STEP}', result_path, 'mean.csv')

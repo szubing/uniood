@@ -10,15 +10,20 @@ parser = argparse.ArgumentParser()
 
 DATASETS = ['office31', 'officehome', 'visda', 'domainnet']
 
-METHODS = ['SO', 'DANCE', 'OVANet', 'UniOT', 'WiSE-FT', 'ClipCrossModel', 'ClipZeroShot', 'debug0.3']
-# METHODS = ['SO', 'DANCE', 'OVANet', 'UniOT',]
+# METHODS = ['SO', 'DANCE', 'OVANet', 'UniOT', 'WiSE-FT', 'ClipCrossModel', 'ClipZeroShot']
+# METHODS += ['ClipDistillTemp1.0', 'AutoDistill']
+# METHODS += ['Auto_only_cal']
+# METHODS = ['Auto_wo_iid', 'Auto_wo_nll', 'Auto_wo_ood', 'AutoDistill']
+METHODS = ['AutoDistill']
 
-SETTINGS = ['open-partial', 'open', 'closed', 'partial']
+# SETTINGS = ['open-partial', 'open', 'closed', 'partial']
 # SETTINGS = ['open-partial']
+SETTINGS = ['partial']
 
-METRIC = 'OSCR' # 'OSCR'
+METRIC = 'H-score' # 'OSCR'
 # BACKBONES = ['resnet50', 'dinov2_vitl14', 'ViT-L/14@336px']
-BACKBONES = ['ViT-L/14@336px']
+BACKBONES = ['ViT-B/16', 'ViT-L/14', 'ViT-L/14@336px']
+# BACKBONES = ['dinov2_vitl14']
 STEP = 'final'
 
 DIR = 'results'
@@ -27,8 +32,8 @@ header_csv_latex = ['method', '&']
 for backbone in BACKBONES:
     for dataset in DATASETS:
         for setting in SETTINGS:
-            if dataset == 'domainnet' and setting in ('closed', 'partial'):
-                continue
+            # if dataset == 'domainnet' and setting in ('closed', 'partial'):
+            #     continue
             header_csv_latex.append(backbone + dataset + setting)
             header_csv_latex.append('&')
         
@@ -50,8 +55,8 @@ def main(args):
 
             for dataset in DATASETS:
                 for setting in SETTINGS:
-                    if dataset == 'domainnet' and setting in ('closed', 'partial'):
-                        continue
+                    # if dataset == 'domainnet' and setting in ('closed', 'partial'):
+                    #     continue
                     if METRIC in ('H-score', 'H3-score') and setting in ('closed', 'partial'):
                         metric = 'AA'
                     elif METRIC == 'OSCR' and setting in ('closed', 'partial'):
@@ -59,7 +64,12 @@ def main(args):
                     else:
                         metric = METRIC
 
-                    if backbone in ('resnet50', 'dinov2_vitl14') and method in ('WiSE-FT', 'ClipCrossModel', 'ClipZeroShot', 'debug0.3'):
+                    if metric == 'OSCR' and method == 'ClipZeroShot':
+                        DIR = 'results_old'
+                    else:
+                        DIR = 'results'
+
+                    if backbone in ('resnet50', 'dinov2_vitl14') and method in ('WiSE-FT', 'ClipCrossModel', 'ClipZeroShot', 'ClipDistillTemp1.0', 'AutoDistill'):
                         method_csv.append('-')
                         backbone_csv.append('-')
                         method_csv.append('&')
@@ -72,7 +82,7 @@ def main(args):
                         backbone_csv.append(float(result))
                         method_csv.append('&')
 
-            if backbone in ('resnet50', 'dinov2_vitl14') and method in ('WiSE-FT', 'ClipCrossModel', 'ClipZeroShot', 'debug0.3'):
+            if backbone in ('resnet50', 'dinov2_vitl14') and method in ('WiSE-FT', 'ClipCrossModel', 'ClipZeroShot', 'ClipDistillTemp1.0', 'AutoDistill'):
                 method_csv.append('-')
             else:
                 method_csv.append(round(float(np.mean(backbone_csv)),2))

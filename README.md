@@ -49,7 +49,7 @@ If this repository helps you, please kindly cite the following bibtext:
 
 ```
 @misc{deng2023universal,
-      title={Universal Domain Adaptation from Foundation Models}, 
+      title={Universal Domain Adaptation from Foundation Models: A Baseline Study}, 
       author={Bin Deng and Kui Jia},
       year={2023},
       eprint={2305.11092},

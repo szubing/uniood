@@ -72,5 +72,15 @@ def build_data_loaders(dataset,
                     drop_last=False,
                     pin_memory=torch.cuda.is_available(),
                 )
+    else:
+        val_loader = DataLoader(
+                    DatasetWrapper(data.train, transform=build_transform("none", backbone)) if val_feature_path is None else FeatureWrapper(data.train, val_feature_path),
+                    batch_size=batch_size,
+                    sampler=None,
+                    shuffle=False,
+                    num_workers=num_workers,
+                    drop_last=False,
+                    pin_memory=torch.cuda.is_available(),
+                )
     
     return source_loader, target_loader, test_loader, val_loader

@@ -5,14 +5,18 @@ from configs import parser
 from engine.trainer import UniDaTrainer
 from tools.utils import set_random_seed
 
-torch.set_num_threads(4)
+torch.set_num_threads(1)
 
 
 def main(args):
     set_random_seed(args.seed)
     trainer = UniDaTrainer(args)
-    print('Begin Training...')
-    trainer.train()
+    if args.eval_only:
+        trainer.load(args.checkpoint)
+    else:
+        print('Begin Training...')
+        trainer.train()
+
     print('Begin Testing...')
     trainer.test()
 

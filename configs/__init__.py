@@ -41,7 +41,7 @@ parser.add_argument(
 parser.add_argument(
     "--method",
     type=str,
-    default="SO",
+    default="Distill",
     choices=method_classes.keys(),
     help="which method to run",
 )
@@ -65,7 +65,8 @@ parser.add_argument(
 parser.add_argument(
     "--backbone",
     type=str,
-    default="ViT-L/14@336px",
+    # default="ViT-L/14@336px",
+    default="resnet50",
     choices=backbone_names,
     help="specify the encoder-backbone to use",
 )
@@ -87,9 +88,25 @@ parser.add_argument(
     help="wheather fixed batch normalization layers during training",
 )
 parser.add_argument(
+    "--ft_norm_only",
+    action="store_true",
+    help="wheather only to finetune normalization layers during training",
+)
+parser.add_argument(
     "--save_checkpoint",
     action="store_true",
     help="wheather fixed batch normalization layers during training",
+)
+parser.add_argument(
+    "--eval_only",
+    action="store_true",
+    help="wheather evaluation only from loading the default checkpoints",
+)
+parser.add_argument(
+    "--checkpoint",
+    type=str,
+    default=None,
+    help="path to load checkpoint for eval_only"
 )
 parser.add_argument(
     "--device",
