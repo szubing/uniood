@@ -1,5 +1,5 @@
-# Universal Domain Adaptation from Foundation Models
-This repostitory contains code for the paper [Universal Domain Adaptation from Foundation Models](https://arxiv.org/pdf/2305.11092.pdf). It is also a code framework for implementing Universal Domain Adaptation (UniDA) methods. One could easily add new methods, backbones, and datasets from this code framework, which are respectively built on different directories of `methods`, `models`, `datasets`. Follow the [METHOD.md](methods/METHOD.md), [MODEL.md](models/MODEL.md), and [DATASET.md](datasets/DATASET.md) instructions to build each custom module if you need.
+## Introduction
+This repostitory contains code for the paper [Universal Domain Adaptation from Foundation Models: A Baseline Study](https://arxiv.org/pdf/2305.11092.pdf). It is also a code framework for implementing Universal Domain Adaptation (UniDA) methods. One could easily add new methods, backbones, and datasets from this code framework, which are respectively built on different directories of `methods`, `models`, `datasets`. Follow the [METHOD.md](methods/METHOD.md), [MODEL.md](models/MODEL.md), and [DATASET.md](datasets/DATASET.md) instructions to build each custom module if you need.
 
 ## Available algorithms
 The [currently available methods](methods) are:
@@ -18,7 +18,7 @@ The [currently available methods](methods) are:
 
 * Multimodality helps unimodality: Cross-modal few-shot learning with multimodal models (CLIP cross-model, [Lin et al., 2023](https://github.com/linzhiqiu/cross_modal_adaptation))
 
-* Universal Domain Adaptation from Foundation Models (CLIP distillation, [Bin Deng and Kui Jia, 2023](https://github.com/szubing/uniood))
+* Universal Domain Adaptation from Foundation Models: A Baseline Study (CLIP distillation, [Bin Deng and Kui Jia, 2023](https://github.com/szubing/uniood))
 
 ## Available datasets
 The [currently available datasets](datasets) are:
