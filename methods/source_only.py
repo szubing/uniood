@@ -1,4 +1,5 @@
 import copy
+import os
 
 import torch
 from torch import nn
@@ -6,6 +7,7 @@ import torch.nn.functional as F
 from tools.utils import get_save_checkpoint_dir
 
 from models import build_backbone, build_head, CLIP_MODELS, DINOv2_MODELS
+from models.partial_model import get_partial_model
 
 THRESHOLD_MODES = ('fixed', 'from_validation')
 SCORE_MODES = ('MSP', 'MLS', 'ENTROPY', 'MarginP')
@@ -37,12 +39,14 @@ class SourceOnly(nn.Module):
             self.backbone = self.backbone.visual
 
         if cfg.fixed_backbone:
+            assert cfg.ft_norm_only is False
+            assert cfg.ft_last_layer is False
             for p in self.backbone.parameters():
                 p.requires_grad_(False)
 
         if cfg.ft_norm_only:
             assert cfg.fixed_backbone is False
-            import os
+            assert cfg.ft_last_layer is False
             cfg.result_dir = os.path.join(cfg.result_dir, 'FT_NORM_ONLY')
             cfg.feature_dir = os.path.join(cfg.feature_dir, 'FT_NORM_ONLY')
             for key, value in self.backbone.named_parameters(recurse=True):
@@ -50,6 +54,19 @@ class SourceOnly(nn.Module):
                     value.requires_grad_(True)
                 else:
                     value.requires_grad_(False)
+        
+        if cfg.ft_last_layer:
+            assert cfg.fixed_backbone is False
+            assert cfg.ft_norm_only is False
+            cfg.result_dir = os.path.join(cfg.result_dir, 'FT_LAST_LAYER')
+            cfg.feature_dir = os.path.join(cfg.feature_dir, 'FT_LAST_LAYER')
+            fixed_model, self.partial_model = get_partial_model(self.backbone, layer_idx=1, name=cfg.backbone)
+            for key, value in fixed_model.named_parameters(recurse=True):
+                value.requires_grad_(False)
+            for key, value in self.partial_model.named_parameters(recurse=True):
+                value.requires_grad_(True)
+            
+            self.partial_model = self.partial_model.to(self.device)
         
         if cfg.backbone in DINOv2_MODELS:
             self.feature_dim = self.backbone.num_features

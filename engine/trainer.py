@@ -75,12 +75,14 @@ class UniDaTrainer(DefaultTrainer):
         self.cfg = cfg
         if self.use_features:
             self.model.backbone = torch.nn.Identity()
+            if cfg.ft_last_layer:
+                self.model.backbone = self.model.partial_model
     
     def build_data_loaders(self, cfg):
         feature_dir = os.path.join(cfg.feature_dir, f'features-imgAug_{cfg.image_augmentation}', cfg.backbone.replace('/',''), cfg.dataset)
         source_feature_path = os.path.join(feature_dir, f'{cfg.source_domain}.pth')
         target_feature_path = os.path.join(feature_dir, f'{cfg.target_domain}.pth')
-        if cfg.fixed_backbone and os.path.exists(source_feature_path) and os.path.exists(target_feature_path):
+        if (cfg.fixed_backbone or cfg.ft_last_layer) and os.path.exists(source_feature_path) and os.path.exists(target_feature_path):
             self.use_features = True
             print('Use pretrained features as dataloader')
             cfg.num_workers = 0

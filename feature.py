@@ -8,6 +8,7 @@ from datasets.transforms import build_transform
 from datasets.utils import DatasetWrapper
 from configs import default
 from models import backbone_names, build_backbone, CLIP_MODELS
+from models.partial_model import get_partial_model
 
 import argparse
 
@@ -20,6 +21,10 @@ def main(args):
         backbone = backbone.visual
     backbone.eval()
 
+    # partial model features
+    if args.ft_last_layer:
+        args.feature_dir = os.path.join(args.feature_dir, 'FT_LAST_LAYER')
+        backbone, partial_model = get_partial_model(backbone, layer_idx=1, name=args.backbone)
     # extract features by different domains
     all_domains = dataset_classes[args.dataset].domains.keys()
     for domain in all_domains:
@@ -83,10 +88,15 @@ if __name__ == "__main__":
     parser.add_argument(
         "--backbone",
         type=str,
-        default="RN50",
+        default="ViT-L/14@336px",
         choices=backbone_names,
         help="specify the encoder-backbone to use",
     )
+    parser.add_argument(
+        "--ft_last_layer",
+        action="store_true",
+        help="wheather only to finetune the last layer during training",
+    )   
     parser.add_argument(
         "--dataset",
         type=str,

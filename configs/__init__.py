@@ -93,6 +93,11 @@ parser.add_argument(
     help="wheather only to finetune normalization layers during training",
 )
 parser.add_argument(
+    "--ft_last_layer",
+    action="store_true",
+    help="wheather only to finetune the last layer during training",
+)
+parser.add_argument(
     "--save_checkpoint",
     action="store_true",
     help="wheather fixed batch normalization layers during training",
