@@ -21,8 +21,8 @@ def build_backbone(name):
         model, _ = clip.load(name)
     elif name in DINOv2_MODELS:
         import torch
-        # model = torch.hub.load('facebookresearch/dinov2', name)
-        model = torch.hub.load('/data1/deng.bin/coding/JUSTforLearning/dinov2', name, source='local')
+        model = torch.hub.load('facebookresearch/dinov2', name)
+        # model = torch.hub.load('/data1/deng.bin/coding/JUSTforLearning/dinov2', name, source='local')
     elif name == 'vit_base':
         model = vit_base(pretrained=False)
     elif name == 'vit_base_dino':
